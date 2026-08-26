@@ -163,6 +163,7 @@ static void winproc(void *arg) {
   thread_id tid = find_thread(NULL);
   rename_thread(tid, "window");
   BAutolock locker(window);
+  window->EnableUpdates();
   window->Loop();
 }
 
