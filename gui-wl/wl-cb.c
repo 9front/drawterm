@@ -422,6 +422,7 @@ seat_handle_capabilities(void *data, struct wl_seat *seat, uint32_t capabilities
 
 	wl = data;
 	pointer = capabilities & WL_SEAT_CAPABILITY_POINTER;
+	wlock(&wl->caplk);
 	if(pointer && wl->pointer == nil){
 		wl->pointer = wl_seat_get_pointer(seat);
 		wl_pointer_add_listener(wl->pointer, &pointer_listener, wl);
@@ -438,6 +439,7 @@ seat_handle_capabilities(void *data, struct wl_seat *seat, uint32_t capabilities
 		wl_keyboard_release(wl->keyboard);
 		wl->keyboard = nil;
 	}
+	wunlock(&wl->caplk);
 }
 
 static void

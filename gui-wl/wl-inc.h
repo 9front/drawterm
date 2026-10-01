@@ -62,6 +62,10 @@ struct Wlwin {
 	struct wl_seat *seat;
 	struct wl_data_device_manager *data_device_manager;
 	struct wl_data_device *data_device;
+
+	/* these resources can be withdrawn by a wl_seat
+	   event, so must be protected by a lock */
+	RWLock caplk;
 	struct wl_pointer *pointer;
 	struct wl_keyboard *keyboard;
 

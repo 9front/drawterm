@@ -131,5 +131,8 @@ wldrawcursor(Wlwin *wl, Cursorinfo *c)
 	wl_surface_attach(wl->cursorsurface, wl->cursorbuffer, 0, 0);
 	wl_surface_damage(wl->cursorsurface, 0, 0, 16, 16);
 	wl_surface_commit(wl->cursorsurface);
-	wl_pointer_set_cursor(wl->pointer, wl->pointerserial, wl->cursorsurface, -c->offset.x, -c->offset.y);
+	rlock(&wl->caplk);
+	if(wl->pointer != nil)
+		wl_pointer_set_cursor(wl->pointer, wl->pointerserial, wl->cursorsurface, -c->offset.x, -c->offset.y);
+	runlock(&wl->caplk);
 }
